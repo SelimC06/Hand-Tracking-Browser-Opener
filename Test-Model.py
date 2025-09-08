@@ -8,7 +8,6 @@ import time
 model_d = pickle.load(open('./model.p', 'rb'))
 model = model_d['model']
 
-
 cap = cv2.VideoCapture(0)
 
 mp_hands = mp.solutions.hands
@@ -21,6 +20,11 @@ labels = {0: 'Close', 1: 'Open', 2: 'Side'}
 test = {frozenset(["Close", "Open"]): "https://github.com/SelimC06",
         frozenset(["Side", "Open"]): "https://Google.com",
         frozenset(["Side", "Close"]): "https://www.linkedin.com/in/selim-coskunuzer-023ab9270/"}
+
+browser_vision = {"Github" : ["Close", "Open"],
+                  "Google" : ["Side", "Open"],
+                  "LinkedIn" : ["Side", "Close"]}
+
 threshold = 0.65
 curr = []
 while True:
@@ -61,19 +65,29 @@ while True:
 
             y1 = int(min(y_) * h) - 10
             y2 = int(max(y_) * h) - 10
-        
-            prediction = model.predict([np.asarray(data_setup)])
+        print(len(data_setup))
+        if len(data_setup) == 42:
             probability = model.predict_proba([np.asarray(data_setup)])
         
-            if max(probability[0]) >= threshold:
-                prediction_character = labels[int(prediction[0])]
-                cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,0), 2)
-                cv2.putText(image, prediction_character, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,0), 2)
+        if max(probability[0]) >= threshold:
+            prediction = model.predict([np.asarray(data_setup)])
+            prediction_character = labels[int(prediction[0])]
+            cv2.putText(image, str(curr), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
+            if not prediction_character in curr:
                 curr.append(prediction_character)
+        else:
+            cv2.putText(image, (str(max(probability[0]))), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
 
+    cv2.putText(image, str(curr), (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
+    num = 80
+    for idx, val in browser_vision.items():
+        cv2.putText(image, (idx + ": " + str(val)), (0, num), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)
+        num += 30
     url = test.get(frozenset(curr))
     if url:
         webbrowser.open(url)
+        time.sleep(2)
     cv2.imshow("Image", image)
     cv2.waitKey(25)
 
