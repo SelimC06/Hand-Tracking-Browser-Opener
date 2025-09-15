@@ -65,19 +65,19 @@ while True:
 
             y1 = int(min(y_) * h) - 10
             y2 = int(max(y_) * h) - 10
-        print(len(data_setup))
+        
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,0), 2)
         if len(data_setup) == 42:
             probability = model.predict_proba([np.asarray(data_setup)])
         
-        cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,0), 2)
-        if max(probability[0]) >= threshold:
-            prediction = model.predict([np.asarray(data_setup)])
-            prediction_character = labels[int(prediction[0])]
-            cv2.putText(image, str(curr), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
-            if not prediction_character in curr:
-                curr.append(prediction_character)
-        else:
-            cv2.putText(image, (str(max(probability[0]))), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
+            if max(probability[0]) >= threshold:
+                prediction = model.predict([np.asarray(data_setup)])
+                prediction_character = labels[int(prediction[0])]
+                cv2.putText(image, str(curr), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
+                if not prediction_character in curr:
+                    curr.append(prediction_character)
+            else:
+                cv2.putText(image, (str(max(probability[0]))), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
 
     cv2.putText(image, str(curr), (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
     num = 80
