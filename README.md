@@ -2,13 +2,6 @@
 
 A simple computer vision project that detects hand gestures from a webcam feed and maps them to browser actions, such as opening a specific website or navigating tabs.
 
----
-
-## 🚧 Status
-This project is **in progress**.
-
----
-
 ## ✨ Features
 - Real-time hand tracking with **MediaPipe Hands**  
 - Gesture recognition (e.g., **open palm**, **fist**, **point**)  
