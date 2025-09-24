@@ -19,4 +19,22 @@ A simple computer vision project that detects hand gestures from a webcam feed a
 
 ---
 
-## 🗂️ Project Structure
+## 🚀 Usage
+
+1. **Clone the repository**  
+   ```
+   git clone https://github.com/your-username/hand-gesture-web-browser.git
+   cd hand-gesture-web-browser
+
+2. **Install dependencies**
+    ```
+    pip install -r requirements.txt
+
+3. **Run the script**
+    ```
+    python Test-Model.py
+
+4. **Use gestures to control the browser**
+    * Open Palm → Opens Google
+    * Fist → Opens YouTube
+    * Point → Opens GitHub
