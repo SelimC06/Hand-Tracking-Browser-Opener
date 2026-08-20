@@ -25,7 +25,8 @@ Full detail and provenance for every number below is in
 | MediaPipe landmark extraction latency | 44.6ms mean / 69.4ms p95 | `results/latency.json` |
 | RandomForest inference latency | 3.4ms mean / 6.0ms p95 | `results/latency.json` |
 | Sustained end-to-end FPS | 19.5 | `results/latency.json` |
-| False activations / minute on non-gesture footage | not yet measured (needs recorded footage) | `results/false_activation.json` (not present) |
+| False activations / minute on non-gesture footage (K=1, no debounce) | 0.287/min (3 in 10.44 min) | `results/false_activation.json` |
+| Chosen debounce K, and why | K=3 (zero measured false activations; +158.7ms trigger latency) | `results/debounce_sweep.json` |
 
 **Cross-session accuracy is real and it is much lower than the within-split
 number.** `results/classifier_metrics.json`'s 100% comes from a random 80/20
@@ -60,6 +61,16 @@ Landmark extraction (44.6ms mean) is ~13x the RandomForest inference cost
 (3.4ms mean), measured live over 1000 webcam frames. Sustained throughput is
 19.5 FPS end-to-end.
 
+**False activations are rare, and a small debounce eliminates them on this
+footage.** Over 10.44 minutes of real non-gesturing footage (typing,
+resting, moving hands naturally, no deliberate gestures), the shipped 0.65
+threshold alone produced 3 false activations (0.287/min). Requiring **K=3**
+consecutive agreeing predictions before firing brings that to 0 on this
+footage, at a cost of +158.7ms added trigger latency (computed from the
+measured per-frame pipeline cost in `results/latency.json`). This is a
+single 10-minute recording, not a statistically robust estimate — treat 0.287
+false activations/min and K=3 as one honest data point, not a guarantee.
+
 ## Tech Stack
 
 - Python (3.13 for training/analysis, 3.11 for capture/live inference — see
@@ -78,6 +89,8 @@ python benchmarks/threshold_sweep.py         # writes results/threshold_sweep.js
 python benchmarks/latency_benchmark.py       # live webcam benchmark, needs cv2/mediapipe
 python benchmarks/cross_session_eval.py      # writes results/cross_session.json
 python benchmarks/feature_ablation.py        # writes results/feature_ablation.json
+python benchmarks/false_activation.py <video>  # writes results/false_activation.json, needs cv2/mediapipe
+python benchmarks/debounce_sweep.py <video>    # writes results/debounce_sweep.json, needs cv2/mediapipe
 ```
 
 `data.pickle` is not committed (see `.gitignore`) — regenerate it from raw
@@ -106,9 +119,10 @@ open and drop it here._
   after landmark detection). Because session 1 never saw Rest,
   `results/cross_session.json`'s all-4-class number can't be compared
   apples-to-apples with the within-split number — see `RESULTS.md`.
-- **False-activation rate is unmeasured.** `benchmarks/false_activation.py`
-  and `benchmarks/debounce_sweep.py` are implemented but need ≥10 minutes of
-  recorded natural non-gesturing footage, which doesn't exist yet.
+- **False-activation rate is measured on a single 10.44-minute recording.**
+  0.287/min at K=1, 0 at K=3 — real, but one data point, not a distribution.
+  A second, independently-recorded session of non-gesture footage would make
+  this more trustworthy.
 - **`static_image_mode=True`** is used for every frame in the live inference
   path, forcing full MediaPipe detection instead of its cheaper tracking
   mode. This is a likely contributor to the 44.6ms mean extraction latency

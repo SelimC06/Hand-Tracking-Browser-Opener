@@ -1,0 +1,61 @@
+{
+  "config": {
+    "threshold": 0.65,
+    "video_path": "../WIN_20260820_18_28_51_Pro.mp4",
+    "duration_seconds": 626.3007519906198,
+    "frame_time_ms_source": "results/latency.json (sum of all four stage means)",
+    "frame_time_ms": 52.91209044708556
+  },
+  "sweep": [
+    {
+      "k": 1,
+      "false_activation_events": 3,
+      "false_activations_per_minute": 0.2874018583370564,
+      "added_trigger_latency_ms": 52.91209044708556
+    },
+    {
+      "k": 2,
+      "false_activation_events": 1,
+      "false_activations_per_minute": 0.09580061944568546,
+      "added_trigger_latency_ms": 105.82418089417112
+    },
+    {
+      "k": 3,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 158.73627134125667
+    },
+    {
+      "k": 4,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 211.64836178834224
+    },
+    {
+      "k": 5,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 264.5604522354278
+    },
+    {
+      "k": 6,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 317.47254268251334
+    },
+    {
+      "k": 7,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 370.3846331295989
+    },
+    {
+      "k": 8,
+      "false_activation_events": 0,
+      "false_activations_per_minute": 0.0,
+      "added_trigger_latency_ms": 423.2967235766845
+    }
+  ],
+  "chosen_k": 3,
+  "chosen_k_reason": "smallest K in the sweep with zero measured false activations on WIN_20260820_18_28_51_Pro.mp4"
+}

@@ -5,3 +5,7 @@ data/sessions/*/*/
 results/_trace_cache/
 __pycache__/
 *.pyc
+*.mp4
+*.avi
+*.mov
+*.mkv

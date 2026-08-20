@@ -1,0 +1,15 @@
+{
+  "config": {
+    "threshold": 0.65,
+    "sklearn_version": "1.7.1",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.11.9",
+    "video_path": "../WIN_20260820_18_28_51_Pro.mp4",
+    "video_fps": 29.956853700665842,
+    "duration_seconds": 626.3007519906198,
+    "total_frames": 18763,
+    "definition": "A false activation is any frame where the model predicts a non-Rest class with confidence >= threshold, on footage containing no deliberate gestures."
+  },
+  "false_activation_frames": 3,
+  "false_activations_per_minute": 0.2874018583370564
+}

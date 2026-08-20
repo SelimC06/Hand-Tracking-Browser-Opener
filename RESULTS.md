@@ -27,6 +27,10 @@ recorded inside each results file, not repeated in full here.
 | RandomForest predict_proba latency | mean 3.4ms, p50 2.9ms, p95 6.0ms | `benchmarks/latency_benchmark.py` | `results/latency.json` |
 | Sustained end-to-end FPS | 19.52 (1000 frames, 51.2s wall time) | `benchmarks/latency_benchmark.py` | `results/latency.json` |
 | MediaPipe-to-classifier latency ratio | ~13x (44.6ms / 3.4ms) | derived from `results/latency.json` | `results/latency.json` |
+| False activations, K=1 (no debounce), on 10.44 min of non-gesture footage | 3 frames = 0.287/min, threshold 0.65 | `benchmarks/false_activation.py` | `results/false_activation.json` |
+| False activations, K=2 | 1 event = 0.096/min, +105.8ms trigger latency | `benchmarks/debounce_sweep.py` | `results/debounce_sweep.json` |
+| False activations, K=3 (chosen operating point) | 0 events, +158.7ms trigger latency | `benchmarks/debounce_sweep.py` | `results/debounce_sweep.json` |
+| False activations, K=4-8 | 0 events, +211.6ms to +423.3ms trigger latency | `benchmarks/debounce_sweep.py` | `results/debounce_sweep.json` |
 
 ### How to read the accuracy numbers together
 
@@ -61,24 +65,32 @@ session_2 was not a deliberately slow, careful capture, and a third session
 done more rigorously would be a reasonable next step before treating 72.8%
 as a stable estimate rather than a single data point.
 
-## Not measured — blocked on data collection
+### Data quality caveat on the false-activation footage
 
-These harnesses are built, committed, and run — each one correctly reports a
-`"status": "blocked"` (or exits with an explanatory error) instead of
-producing a fabricated number.
+`false_activation.py` and `debounce_sweep.py` ran against one 10.44-minute
+recording (18,763 frames at ~30fps) of natural non-gesturing activity. 3
+false activations at K=1 out of 18,763 frames is a small-sample result — a
+single unlucky or lucky 10-minute window could plausibly shift the rate.
+Treat 0.287/min and the choice of K=3 as one honest measurement, not a
+statistically robust rate. A second, independently-recorded footage session
+would strengthen this.
 
-| Metric | Blocked because | Harness | Results file |
-|---|---|---|---|
-| False activations per minute on non-gesture footage | No natural non-gesturing footage has been recorded yet (model.p does now include a trained Rest class, from session_2). Needs ≥10 minutes of real footage (typing, drinking, talking with hand movement). | `benchmarks/false_activation.py` | not present — script exits with a clear error rather than running against no footage |
-| Debounce sweep (false-activation rate vs. added latency across K=1-8) | Same blocker as above, plus depends on `false_activation.py`'s footage. | `benchmarks/debounce_sweep.py` | not present — same guard |
+## Not measured — nothing left that's blocked
 
-## What's needed to unblock the rest
+All harnesses described in the original task list have now been run against
+real data. The only thing not done is optional strengthening (see below),
+not a missing measurement.
 
-1. Record ≥10 minutes of real, natural non-gesturing footage (a video file)
-   for the false-activation and debounce benchmarks.
-2. Run, in order: `benchmarks/false_activation.py <video_path>` then
-   `benchmarks/debounce_sweep.py <video_path>`.
-3. Optional, to strengthen the cross-session numbers above: record a third
-   session more deliberately (slower, without "TESTING" as the working
-   assumption) and re-run `processing_data.py` →
-   `benchmarks/cross_session_eval.py` → `benchmarks/feature_ablation.py`.
+## Optional next steps to strengthen existing numbers
+
+None of these are blockers — everything in the original task list is
+measured. These would tighten confidence intervals on numbers that are
+currently single data points:
+
+1. A third capture session, done deliberately (not the ~76-second
+   "TESTING" pass that session_2 was), to check whether 72.8% cross-session
+   accuracy and the feature-ablation deltas hold up on a second independent
+   session pair.
+2. A second, independently-recorded non-gesture footage session, to check
+   whether 0.287 false-activations/min and the K=3 operating point hold up
+   on different natural behavior/lighting.
