@@ -16,7 +16,7 @@ mpDrawStyles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode = True, min_detection_confidence = 0.3)
 
-labels = {0: 'Close', 1: 'Open', 2: 'Side'}
+labels = {0: 'Close', 1: 'Open', 2: 'Side', 3: 'Rest'}
 test = {frozenset(["Close", "Open"]): "https://github.com/SelimC06",
         frozenset(["Side", "Open"]): "https://Google.com",
         frozenset(["Side", "Close"]): "https://www.linkedin.com/in/selim-coskunuzer-023ab9270/"}
@@ -74,7 +74,7 @@ while True:
                 prediction = model.predict([np.asarray(data_setup)])
                 prediction_character = labels[int(prediction[0])]
                 cv2.putText(image, str(curr), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
-                if not prediction_character in curr:
+                if prediction_character != 'Rest' and prediction_character not in curr:
                     curr.append(prediction_character)
             else:
                 cv2.putText(image, (str(max(probability[0]))), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)

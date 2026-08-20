@@ -56,6 +56,12 @@ metrics = {
         "class_counts_total": class_counts_total,
         "class_counts_train": class_counts_train,
         "class_counts_test": class_counts_test,
+        "sessions_in_split": sorted(set(data_directory.get("sessions") or [])) or None,
+        "note": "Split is a random 80/20 shuffle, not session-stratified. If data.pickle "
+                "contains more than one session, frames from the same capture burst can "
+                "land on both sides of the split, so this accuracy is not a controlled "
+                "generalization estimate. See results/cross_session.json for a "
+                "train-on-one-session, test-on-another number.",
         "test_size": 0.2,
         "model_hyperparameters": model.get_params(),
     },

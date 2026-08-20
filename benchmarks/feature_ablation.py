@@ -62,6 +62,15 @@ y_a, y_b = labels[mask_a], labels[mask_b]
 raw_a = [raw_data[i] for i in range(len(raw_data)) if mask_a[i]]
 raw_b = [raw_data[i] for i in range(len(raw_data)) if mask_b[i]]
 
+# If session A has fewer classes than session B (e.g. B includes a Rest class A
+# never saw), blended cross-session accuracy conflates "model never trained on
+# this class" with "model doesn't generalize." Restrict to classes present in
+# both sessions so the three representations are compared on equal footing.
+classes_in_a = set(y_a.tolist())
+shared_class_mask = np.isin(y_b, list(classes_in_a))
+shared_classes = sorted(classes_in_a)
+has_unseen_test_classes = not shared_class_mask.all()
+
 representation_results = {}
 for name, transform in REPRESENTATIONS.items():
     x_a = np.asarray([transform(v) for v in raw_a])
@@ -71,15 +80,21 @@ for name, transform in REPRESENTATIONS.items():
     model.fit(x_a, y_a)
     pred_b = model.predict(x_b)
     cross_accuracy = float(accuracy_score(pred_b, y_b))
+    cross_accuracy_shared = (
+        float(accuracy_score(pred_b[shared_class_mask], y_b[shared_class_mask]))
+        if has_unseen_test_classes else None
+    )
 
     representation_results[name] = {
         "feature_dimensionality": int(x_a.shape[1]),
         "cross_session_accuracy": cross_accuracy,
+        "cross_session_accuracy_shared_classes_only": cross_accuracy_shared,
     }
 
-baseline = representation_results["raw_coordinates"]["cross_session_accuracy"]
+baseline_key = "cross_session_accuracy_shared_classes_only" if has_unseen_test_classes else "cross_session_accuracy"
+baseline = representation_results["raw_coordinates"][baseline_key]
 for name, entry in representation_results.items():
-    entry["accuracy_delta_vs_raw"] = entry["cross_session_accuracy"] - baseline
+    entry["accuracy_delta_vs_raw"] = entry[baseline_key] - baseline
 
 output = {
     "config": {
@@ -89,14 +104,17 @@ output = {
         "test_session": session_b,
     },
     "status": "ok",
+    "shared_classes": shared_classes,
+    "comparison_basis": baseline_key,
     "representations": representation_results,
 }
 
 with open(out_path, "w") as f:
     json.dump(output, f, indent=2)
 
+print(f"Comparison basis: {baseline_key}")
 for name, entry in representation_results.items():
     print(f"{name}: dim={entry['feature_dimensionality']} "
-          f"cross_session_accuracy={entry['cross_session_accuracy']:.4f} "
+          f"{baseline_key}={entry[baseline_key]:.4f} "
           f"delta_vs_raw={entry['accuracy_delta_vs_raw']:+.4f}")
 print(f"Wrote {out_path}")

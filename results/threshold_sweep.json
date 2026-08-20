@@ -6,19 +6,24 @@
     "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
     "python_version": "3.13.5",
     "feature_dimensionality": 42,
-    "test_set_size": 180,
+    "test_set_size": 325,
     "class_counts_test": {
-      "0": 60,
-      "1": 60,
-      "2": 60
+      "0": 100,
+      "1": 100,
+      "2": 100,
+      "3": 25
     },
     "shipped_threshold": 0.65,
-    "note": "Swept on a within-session held-out split (same session as training data); see results/cross_session.json (T4) for a non-leaked estimate once available."
+    "sessions_in_split": [
+      "session_1",
+      "session_2"
+    ],
+    "note": "Swept on a random 80/20 held-out split drawn from whatever sessions are in data.pickle at run time (not session-stratified), so frames from the same capture burst can land on both sides of the split -- this is not a controlled generalization test. See results/cross_session.json (T4) for a train-on-one-session, test-on-another estimate."
   },
   "sweep": [
     {
       "threshold": 0.3,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -26,7 +31,7 @@
     },
     {
       "threshold": 0.35,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -34,7 +39,7 @@
     },
     {
       "threshold": 0.4,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -42,7 +47,7 @@
     },
     {
       "threshold": 0.45,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -50,7 +55,7 @@
     },
     {
       "threshold": 0.5,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -58,7 +63,7 @@
     },
     {
       "threshold": 0.55,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -66,7 +71,7 @@
     },
     {
       "threshold": 0.6,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -74,7 +79,7 @@
     },
     {
       "threshold": 0.65,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -82,7 +87,7 @@
     },
     {
       "threshold": 0.7,
-      "n_accepted": 180,
+      "n_accepted": 325,
       "n_rejected": 0,
       "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
@@ -90,48 +95,48 @@
     },
     {
       "threshold": 0.75,
-      "n_accepted": 179,
-      "n_rejected": 1,
-      "rejection_rate": 0.005555555555555556,
+      "n_accepted": 325,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
-      "effective_accuracy_over_all_frames": 0.9944444444444445
+      "effective_accuracy_over_all_frames": 1.0
     },
     {
       "threshold": 0.8,
-      "n_accepted": 176,
-      "n_rejected": 4,
-      "rejection_rate": 0.022222222222222223,
+      "n_accepted": 325,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
-      "effective_accuracy_over_all_frames": 0.9777777777777777
+      "effective_accuracy_over_all_frames": 1.0
     },
     {
       "threshold": 0.85,
-      "n_accepted": 175,
-      "n_rejected": 5,
-      "rejection_rate": 0.027777777777777776,
+      "n_accepted": 325,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
       "precision_on_accepted": 1.0,
-      "effective_accuracy_over_all_frames": 0.9722222222222222
+      "effective_accuracy_over_all_frames": 1.0
     },
     {
       "threshold": 0.9,
-      "n_accepted": 174,
+      "n_accepted": 319,
       "n_rejected": 6,
-      "rejection_rate": 0.03333333333333333,
+      "rejection_rate": 0.018461538461538463,
       "precision_on_accepted": 1.0,
-      "effective_accuracy_over_all_frames": 0.9666666666666667
+      "effective_accuracy_over_all_frames": 0.9815384615384616
     },
     {
       "threshold": 0.95,
-      "n_accepted": 169,
-      "n_rejected": 11,
-      "rejection_rate": 0.06111111111111111,
+      "n_accepted": 310,
+      "n_rejected": 15,
+      "rejection_rate": 0.046153846153846156,
       "precision_on_accepted": 1.0,
-      "effective_accuracy_over_all_frames": 0.9388888888888889
+      "effective_accuracy_over_all_frames": 0.9538461538461539
     }
   ],
   "shipped_threshold_row": {
     "threshold": 0.65,
-    "n_accepted": 180,
+    "n_accepted": 325,
     "n_rejected": 0,
     "rejection_rate": 0.0,
     "precision_on_accepted": 1.0,

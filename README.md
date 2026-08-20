@@ -16,28 +16,44 @@ Full detail and provenance for every number below is in
 
 | Metric | Value | Source |
 |---|---|---|
-| Held-out classification accuracy (within-session split) | 100% | `results/classifier_metrics.json` |
-| Cross-session accuracy | not yet measured (needs a second capture session) | `results/cross_session.json` (blocked) |
+| Held-out accuracy (random split, not session-controlled) | 100% | `results/classifier_metrics.json` |
+| Cross-session accuracy, shared gesture classes (Close/Open/Side) | 72.8% | `results/cross_session.json` |
+| Cross-session accuracy, all 4 classes incl. untrained Rest | 60.4% | `results/cross_session.json` |
 | Shipped confidence threshold | 0.65 | `results/threshold_sweep.json` |
+| Best feature representation, cross-session (wrist-relative, scaled) | 100% (+27.2pp vs. raw) | `results/feature_ablation.json` |
+| Worst feature representation, cross-session (inter-landmark angles) | 66.7% (-6.2pp vs. raw) | `results/feature_ablation.json` |
 | MediaPipe landmark extraction latency | 44.6ms mean / 69.4ms p95 | `results/latency.json` |
 | RandomForest inference latency | 3.4ms mean / 6.0ms p95 | `results/latency.json` |
 | Sustained end-to-end FPS | 19.5 | `results/latency.json` |
-| False activations / minute on non-gesture footage | not yet measured (needs recorded footage + Rest class) | `results/false_activation.json` (not present) |
+| False activations / minute on non-gesture footage | not yet measured (needs recorded footage) | `results/false_activation.json` (not present) |
 
-**The within-session accuracy is inflated and known to be inflated.** The
-current split is drawn from a single capture session (`data/sessions/session_1`),
-so training and test data share lighting, background, camera distance, and
-the same hand. 100% accuracy on that split says the classifier memorized this
-session's conditions, not that it generalizes. A corrected, cross-session
-number is pending — see the Limitations section.
+**Cross-session accuracy is real and it is much lower than the within-split
+number.** `results/classifier_metrics.json`'s 100% comes from a random 80/20
+shuffle that is not session-stratified — frames from the same capture burst
+can land on both sides. `results/cross_session.json` trains on session 1 and
+tests entirely on session 2 (different lighting, background, distance):
+accuracy on the 3 gesture classes both sessions share drops to **72.8%**
+(-27.2pp). Including the Rest class — which session 1 never saw, so it's
+unrecognizable by construction — drops it further to 60.4%; that number
+conflates "never trained on this class" with "doesn't generalize," so use the
+72.8% figure as the honest cross-session estimate.
 
-**The threshold sweep did not validate 0.65 as a good operating point.**
-Because the sweep runs on the same leaked within-session split, precision on
-accepted predictions is 1.0 at every threshold from 0.30 to 0.95 — the sweep
-has no signal to distinguish thresholds by accuracy, only by rejection rate
-(0% up to 0.70, rising to 6.1% at 0.95). 0.65 is not contradicted by this
-data, but it isn't backed by it either; a real threshold decision needs the
-cross-session split.
+**Raw x,y coordinates are the wrong feature representation, and the data now
+backs that.** `results/feature_ablation.json` compares three representations
+on the same cross-session split: wrist-relative coordinates scaled by hand
+bounding-box size reach **100%** cross-session accuracy (vs. 72.8% for raw
+coordinates), confirming the hypothesis that translation/scale invariance
+matters. Inter-landmark angles perform worse than raw (66.7%) despite also
+being invariant — on this data, scale/translation normalization helped, but
+discarding coordinate information for pure joint angles lost more than it
+gained.
+
+**The threshold sweep still has no signal to evaluate 0.65 against.** The
+sweep runs on the same non-session-stratified split as
+`classifier_metrics.json`, so precision on accepted predictions is 1.0 at
+every threshold from 0.30 to 0.95 — only rejection rate moves (0% up to 0.85,
+rising to 4.6% at 0.95). 0.65 is not contradicted by this data, but it isn't
+validated by it either.
 
 **MediaPipe dominates the pipeline, and the classifier is nearly free.**
 Landmark extraction (44.6ms mean) is ~13x the RandomForest inference cost
@@ -60,6 +76,8 @@ pip install -r requirements.txt
 python train_data.py                        # trains on data.pickle, writes results/classifier_metrics.json
 python benchmarks/threshold_sweep.py         # writes results/threshold_sweep.json and .png
 python benchmarks/latency_benchmark.py       # live webcam benchmark, needs cv2/mediapipe
+python benchmarks/cross_session_eval.py      # writes results/cross_session.json
+python benchmarks/feature_ablation.py        # writes results/feature_ablation.json
 ```
 
 `data.pickle` is not committed (see `.gitignore`) — regenerate it from raw
@@ -75,19 +93,22 @@ open and drop it here._
 
 - **Single user.** All data was captured from one person's hand; the
   classifier has never seen anyone else's hand shape or gesture style.
-- **One capture session for the current results.** `data/sessions/session_1`
-  is the only session with a trained-on model; a second session under
-  different conditions is planned (see `benchmarks/cross_session_eval.py`,
-  currently blocked) but not yet recorded.
-- **Controlled lighting and background.** Session 1 has no recorded
-  lighting/background/distance manifest (it predates the manifest system);
-  informally, it was captured in one sitting under one lighting setup.
-- **3 gesture classes plus a not-yet-trained 4th.** The shipped model
-  recognizes "Close" (fist), "Open" (palm), and "Side" only. A 4th "Rest"
-  (no-gesture) class has been added to the capture tooling
-  (`collect_session.py`) but not yet captured or trained, so the current
-  model has no notion of "doing nothing" — every frame with a detected hand
-  is forced into one of the 3 gesture classes.
+- **Two capture sessions, one lightly documented.** `data/sessions/session_1`
+  has no recorded lighting/background/distance manifest (it predates the
+  manifest system). `session_2` does have a manifest ("lamp only", "plain
+  white wall", "90cm") but its own notes field says "TESTING" and it was
+  captured in about 76 seconds — treat it as a real second condition (the
+  cross-session accuracy drop is consistent with that), but not as a
+  carefully controlled second session on the level a rigorous ablation would
+  want. A third, more deliberate session would strengthen this.
+- **3 trained gesture classes plus Rest.** The model now includes a 4th
+  "Rest" (no-gesture) class, captured only in session 2 (123 usable samples
+  after landmark detection). Because session 1 never saw Rest,
+  `results/cross_session.json`'s all-4-class number can't be compared
+  apples-to-apples with the within-split number — see `RESULTS.md`.
+- **False-activation rate is unmeasured.** `benchmarks/false_activation.py`
+  and `benchmarks/debounce_sweep.py` are implemented but need ≥10 minutes of
+  recorded natural non-gesturing footage, which doesn't exist yet.
 - **`static_image_mode=True`** is used for every frame in the live inference
   path, forcing full MediaPipe detection instead of its cheaper tracking
   mode. This is a likely contributor to the 44.6ms mean extraction latency

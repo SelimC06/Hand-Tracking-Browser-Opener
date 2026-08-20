@@ -1,0 +1,18 @@
+{
+  "session_id": "session_2",
+  "date_range": {
+    "earliest": "2026-08-20T17:56:18",
+    "latest": "2026-08-20T17:57:34",
+    "source": "recorded by collect_session.py at capture time"
+  },
+  "lighting": "lamp only",
+  "background": "plain white wall",
+  "distance": "90cm",
+  "notes": "TESTING",
+  "class_counts": {
+    "0": 200,
+    "1": 200,
+    "2": 200,
+    "3": 200
+  }
+}

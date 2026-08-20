@@ -73,8 +73,12 @@ output = {
         "test_set_size": n_total,
         "class_counts_test": {str(c): int((y_test == c).sum()) for c in sorted(set(labels.tolist()))},
         "shipped_threshold": shipped_threshold,
-        "note": "Swept on a within-session held-out split (same session as training data); "
-                "see results/cross_session.json (T4) for a non-leaked estimate once available.",
+        "sessions_in_split": sorted(set(data_directory.get("sessions") or [])) or None,
+        "note": "Swept on a random 80/20 held-out split drawn from whatever sessions are "
+                "in data.pickle at run time (not session-stratified), so frames from the "
+                "same capture burst can land on both sides of the split -- this is not a "
+                "controlled generalization test. See results/cross_session.json (T4) for "
+                "a train-on-one-session, test-on-another estimate.",
     },
     "sweep": sweep,
     "shipped_threshold_row": shipped_row,

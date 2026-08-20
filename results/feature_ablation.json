@@ -6,10 +6,37 @@
     "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
     "python_version": "3.13.5",
     "sessions_found": [
-      "session_1"
-    ]
+      "session_1",
+      "session_2"
+    ],
+    "train_session": "session_1",
+    "test_session": "session_2"
   },
-  "status": "blocked",
-  "reason": "Only 1 session(s) found: ['session_1']. Feature representation ablation is evaluated on the T4 cross-session split, so it needs a second session recorded under different conditions first. Run collect_session.py, then processing_data.py, then cross_session_eval.py, then this script.",
-  "representations": null
+  "status": "ok",
+  "shared_classes": [
+    "0",
+    "1",
+    "2"
+  ],
+  "comparison_basis": "cross_session_accuracy_shared_classes_only",
+  "representations": {
+    "raw_coordinates": {
+      "feature_dimensionality": 42,
+      "cross_session_accuracy": 0.6044260027662517,
+      "cross_session_accuracy_shared_classes_only": 0.7283333333333334,
+      "accuracy_delta_vs_raw": 0.0
+    },
+    "wrist_relative_scaled": {
+      "feature_dimensionality": 42,
+      "cross_session_accuracy": 0.8298755186721992,
+      "cross_session_accuracy_shared_classes_only": 1.0,
+      "accuracy_delta_vs_raw": 0.2716666666666666
+    },
+    "inter_landmark_angles": {
+      "feature_dimensionality": 20,
+      "cross_session_accuracy": 0.5532503457814661,
+      "cross_session_accuracy_shared_classes_only": 0.6666666666666666,
+      "accuracy_delta_vs_raw": -0.06166666666666676
+    }
+  }
 }
