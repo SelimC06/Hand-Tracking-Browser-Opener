@@ -1,0 +1,17 @@
+{
+  "config": {
+    "random_seed": 42,
+    "sklearn_version": "1.7.2",
+    "numpy_version": "2.3.3",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.13.5",
+    "feature_dimensionality": 42,
+    "sessions_found": [
+      "session_1"
+    ]
+  },
+  "status": "blocked",
+  "reason": "Only 1 session(s) found in data.pickle: ['session_1']. Cross-session evaluation requires at least two sessions captured under deliberately different conditions (lighting, background, distance, day). Run collect_session.py to record a second session, then re-run Proccesing-data.py and this script.",
+  "within_session_accuracy": null,
+  "cross_session_accuracy": null
+}
