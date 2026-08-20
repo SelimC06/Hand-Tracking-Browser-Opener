@@ -1,0 +1,15 @@
+{
+  "config": {
+    "random_seed": 42,
+    "sklearn_version": "1.7.2",
+    "numpy_version": "2.3.3",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.13.5",
+    "sessions_found": [
+      "session_1"
+    ]
+  },
+  "status": "blocked",
+  "reason": "Only 1 session(s) found: ['session_1']. Feature representation ablation is evaluated on the T4 cross-session split, so it needs a second session recorded under different conditions first. Run collect_session.py, then Proccesing-data.py, then cross_session_eval.py, then this script.",
+  "representations": null
+}

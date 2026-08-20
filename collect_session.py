@@ -5,7 +5,7 @@ from datetime import datetime
 import cv2
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data", "sessions")
-CLASS_NAMES = {0: "Close", 1: "Open", 2: "Side"}
+CLASS_NAMES = {0: "Close", 1: "Open", 2: "Side", 3: "Rest"}
 DATASET_SIZE = 200
 
 
@@ -45,7 +45,8 @@ def main():
         class_dir = os.path.join(session_dir, str(class_id))
         os.makedirs(class_dir, exist_ok=True)
 
-        print(f"Collecting data for class {class_id} ({class_name})")
+        hint = " (relaxed/resting hand, no deliberate gesture)" if class_name == "Rest" else ""
+        print(f"Collecting data for class {class_id} ({class_name}){hint}")
         while True:
             success, image = cap.read()
             cv2.putText(image, f'Ready for "{class_name}"? Press "Q" !', (50, 50),
