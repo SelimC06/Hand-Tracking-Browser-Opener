@@ -1,0 +1,49 @@
+{
+  "config": {
+    "random_seed": 42,
+    "sklearn_version": "1.7.1",
+    "opencv_version": "4.11.0",
+    "mediapipe_version": "0.10.21",
+    "numpy_version": "1.26.4",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.11.9",
+    "frames_attempted": 1000,
+    "frames_with_hand_detected": 508,
+    "hands_config": {
+      "static_image_mode": true,
+      "min_detection_confidence": 0.3
+    },
+    "note": "capture and mediapipe stages measured over every attempted frame; feature construction and predict_proba stages measured only over frames where a hand was detected with exactly 42 features."
+  },
+  "stages_ms": {
+    "frame_capture": {
+      "n": 1000,
+      "mean_ms": 4.887671200223849,
+      "p50_ms": 2.5719999975990504,
+      "p95_ms": 18.466004994843384
+    },
+    "mediapipe_landmark_extraction": {
+      "n": 1000,
+      "mean_ms": 44.581516499922145,
+      "p50_ms": 42.117650009458885,
+      "p95_ms": 69.43242500346969
+    },
+    "feature_vector_construction": {
+      "n": 688,
+      "mean_ms": 0.02482558176230076,
+      "p50_ms": 0.02030000905506313,
+      "p95_ms": 0.04335000048740765
+    },
+    "randomforest_predict_proba": {
+      "n": 508,
+      "mean_ms": 3.4180771651772663,
+      "p50_ms": 2.9367499955696985,
+      "p95_ms": 6.009444997471291
+    }
+  },
+  "end_to_end": {
+    "total_wall_seconds": 51.225734200008446,
+    "frames_attempted": 1000,
+    "sustained_fps": 19.52143811342064
+  }
+}
