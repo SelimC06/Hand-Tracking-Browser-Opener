@@ -1,0 +1,106 @@
+{
+  "config": {
+    "random_seed": 42,
+    "sklearn_version": "1.7.2",
+    "numpy_version": "2.3.3",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.13.5",
+    "feature_dimensionality": 42,
+    "total_samples": 900,
+    "class_counts_total": {
+      "0": 300,
+      "1": 300,
+      "2": 300
+    },
+    "class_counts_train": {
+      "0": 240,
+      "1": 240,
+      "2": 240
+    },
+    "class_counts_test": {
+      "0": 60,
+      "1": 60,
+      "2": 60
+    },
+    "test_size": 0.2,
+    "model_hyperparameters": {
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "class_weight": null,
+      "criterion": "gini",
+      "max_depth": null,
+      "max_features": "sqrt",
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 1,
+      "min_samples_split": 2,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 100,
+      "n_jobs": null,
+      "oob_score": false,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    }
+  },
+  "results": {
+    "overall_accuracy": 1.0,
+    "classification_report": {
+      "0": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "1": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "2": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 180.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 180.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        60,
+        0,
+        0
+      ],
+      [
+        0,
+        60,
+        0
+      ],
+      [
+        0,
+        0,
+        60
+      ]
+    ],
+    "confusion_matrix_labels": [
+      "0",
+      "1",
+      "2"
+    ]
+  }
+}
