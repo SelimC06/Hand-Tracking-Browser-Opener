@@ -1,0 +1,7 @@
+data.pickle
+model.p
+data/sessions/*/*/
+!data/sessions/*/meta.json
+results/_trace_cache/
+__pycache__/
+*.pyc

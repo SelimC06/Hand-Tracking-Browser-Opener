@@ -3,12 +3,12 @@
   "date_range": {
     "earliest": "2025-09-02T14:23:17",
     "latest": "2025-09-02T14:58:42",
-    "source": "filesystem mtimes of the captured .jpg files; original collect-data.py did not record a manifest"
+    "source": "filesystem mtimes of the captured .jpg files; original collect_data.py did not record a manifest"
   },
   "lighting": "not recorded at capture time",
   "background": "not recorded at capture time",
   "distance": "not recorded at capture time",
-  "notes": "Legacy capture from the original collect-data.py, migrated into the session-tagged layout for T4. No lighting/background/distance manifest exists for this session because it predates collect_session.py. Treat downstream cross-session comparisons involving session_1 as lacking documented capture conditions for this side of the comparison.",
+  "notes": "Legacy capture from the original collect_data.py (named collect-data.py at capture time, renamed for T8), migrated into the session-tagged layout for T4. No lighting/background/distance manifest exists for this session because it predates collect_session.py. Treat downstream cross-session comparisons involving session_1 as lacking documented capture conditions for this side of the comparison.",
   "class_counts": {
     "0": 300,
     "1": 300,

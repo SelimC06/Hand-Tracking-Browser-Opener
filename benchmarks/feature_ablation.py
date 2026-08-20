@@ -31,7 +31,7 @@ base_config = {
 }
 
 if sessions is None or sessions[0] is None:
-    raise SystemExit("data.pickle has no 'sessions' field; run the T4-refactored Proccesing-data.py first.")
+    raise SystemExit("data.pickle has no 'sessions' field; run the T4-refactored processing_data.py first.")
 
 unique_sessions = sorted(set(sessions.tolist()))
 
@@ -43,7 +43,7 @@ if len(unique_sessions) < 2:
             f"Only {len(unique_sessions)} session(s) found: {unique_sessions}. Feature "
             "representation ablation is evaluated on the T4 cross-session split, so it "
             "needs a second session recorded under different conditions first. Run "
-            "collect_session.py, then Proccesing-data.py, then cross_session_eval.py, "
+            "collect_session.py, then processing_data.py, then cross_session_eval.py, "
             "then this script."
         ),
         "representations": None,

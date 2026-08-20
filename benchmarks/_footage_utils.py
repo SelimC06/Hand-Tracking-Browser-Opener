@@ -21,7 +21,7 @@ def require_rest_class(model):
         raise SystemExit(
             f"model.p was not trained with a Rest class (classes_ = {list(model.classes_)}). "
             "Capture Rest-class images with collect_session.py, regenerate data.pickle with "
-            "Proccesing-data.py, and retrain with Train-data.py before running this benchmark. "
+            "processing_data.py, and retrain with train_data.py before running this benchmark. "
             "Without a Rest class, the model is forced to pick among gesture classes for every "
             "frame and the false-activation rate would be meaningless."
         )

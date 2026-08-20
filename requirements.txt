@@ -1,0 +1,19 @@
+# Core: training, evaluation, and benchmarking scripts that don't touch a
+# live camera (train_data.py, and most of benchmarks/). Tested on Python 3.13.
+numpy==2.3.3
+scikit-learn==1.7.2
+matplotlib==3.10.8
+
+# Capture / live inference: scripts that use OpenCV and MediaPipe
+# (collect_data.py, collect_session.py, processing_data.py, test_model.py,
+# hand_tracking_man.py, benchmarks/latency_benchmark.py,
+# benchmarks/false_activation.py, benchmarks/debounce_sweep.py).
+#
+# mediapipe 0.10.21 has no wheel for Python 3.13 at time of writing, so these
+# were run under Python 3.11 in a separate environment -- install this block
+# there instead of alongside the core block above if pip cannot resolve both
+# together. numpy is pinned lower here because mediapipe 0.10.21 requires
+# numpy<2.
+opencv-python==4.11.0
+mediapipe==0.10.21
+numpy==1.26.4

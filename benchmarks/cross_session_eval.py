@@ -19,7 +19,7 @@ sessions = np.asarray(data_directory.get("sessions"))
 
 if sessions is None or sessions[0] is None:
     raise SystemExit(
-        "data.pickle has no 'sessions' field. Run Proccesing-data.py (refactored for T4) "
+        "data.pickle has no 'sessions' field. Run processing_data.py (refactored for T4) "
         "against the data/sessions/<id>/<class>/ layout first."
     )
 
@@ -48,7 +48,7 @@ if len(unique_sessions) < 2:
             "Cross-session evaluation requires at least two sessions captured under "
             "deliberately different conditions (lighting, background, distance, day). "
             "Run collect_session.py to record a second session, then re-run "
-            "Proccesing-data.py and this script."
+            "processing_data.py and this script."
         ),
         "within_session_accuracy": None,
         "cross_session_accuracy": None,
@@ -60,7 +60,7 @@ if len(unique_sessions) < 2:
     raise SystemExit(0)
 
 # Within-session: standard stratified split on session A (first session) alone, same
-# methodology as Train-data.py, for direct comparison against the cross-session number.
+# methodology as train_data.py, for direct comparison against the cross-session number.
 session_a = unique_sessions[0]
 session_b = unique_sessions[1]
 if len(unique_sessions) > 2:

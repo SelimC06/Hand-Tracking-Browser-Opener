@@ -10,6 +10,6 @@
     ]
   },
   "status": "blocked",
-  "reason": "Only 1 session(s) found: ['session_1']. Feature representation ablation is evaluated on the T4 cross-session split, so it needs a second session recorded under different conditions first. Run collect_session.py, then Proccesing-data.py, then cross_session_eval.py, then this script.",
+  "reason": "Only 1 session(s) found: ['session_1']. Feature representation ablation is evaluated on the T4 cross-session split, so it needs a second session recorded under different conditions first. Run collect_session.py, then processing_data.py, then cross_session_eval.py, then this script.",
   "representations": null
 }
