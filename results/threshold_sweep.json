@@ -1,0 +1,140 @@
+{
+  "config": {
+    "random_seed": 42,
+    "sklearn_version": "1.7.2",
+    "numpy_version": "2.3.3",
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 256V",
+    "python_version": "3.13.5",
+    "feature_dimensionality": 42,
+    "test_set_size": 180,
+    "class_counts_test": {
+      "0": 60,
+      "1": 60,
+      "2": 60
+    },
+    "shipped_threshold": 0.65,
+    "note": "Swept on a within-session held-out split (same session as training data); see results/cross_session.json (T4) for a non-leaked estimate once available."
+  },
+  "sweep": [
+    {
+      "threshold": 0.3,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.35,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.4,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.45,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.5,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.55,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.6,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.65,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.7,
+      "n_accepted": 180,
+      "n_rejected": 0,
+      "rejection_rate": 0.0,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 1.0
+    },
+    {
+      "threshold": 0.75,
+      "n_accepted": 179,
+      "n_rejected": 1,
+      "rejection_rate": 0.005555555555555556,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 0.9944444444444445
+    },
+    {
+      "threshold": 0.8,
+      "n_accepted": 176,
+      "n_rejected": 4,
+      "rejection_rate": 0.022222222222222223,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 0.9777777777777777
+    },
+    {
+      "threshold": 0.85,
+      "n_accepted": 175,
+      "n_rejected": 5,
+      "rejection_rate": 0.027777777777777776,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 0.9722222222222222
+    },
+    {
+      "threshold": 0.9,
+      "n_accepted": 174,
+      "n_rejected": 6,
+      "rejection_rate": 0.03333333333333333,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 0.9666666666666667
+    },
+    {
+      "threshold": 0.95,
+      "n_accepted": 169,
+      "n_rejected": 11,
+      "rejection_rate": 0.06111111111111111,
+      "precision_on_accepted": 1.0,
+      "effective_accuracy_over_all_frames": 0.9388888888888889
+    }
+  ],
+  "shipped_threshold_row": {
+    "threshold": 0.65,
+    "n_accepted": 180,
+    "n_rejected": 0,
+    "rejection_rate": 0.0,
+    "precision_on_accepted": 1.0,
+    "effective_accuracy_over_all_frames": 1.0
+  }
+}
